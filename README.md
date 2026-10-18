@@ -223,9 +223,17 @@ registrations is blocked by the API and the returned message is shown to the use
 - [x] Part 2 – RESTful API: improved event-by-id endpoint + full CRUD for events
 - [x] Part 3 – client site: event detail registrations + new registration page
 - [x] Part 4 – admin site: list / new / update / delete + navigation
-- [ ] Part 5 – deploy to SCU cPanel (needs your cPanel credentials)
+- [x] Part 5 – **packages built**, ready to upload to SCU cPanel (see `deliverables/`)  
+      Rename each zip to `usernameA3-clientside.zip`, `usernameA3-adminside.zip`,
+      `usernameA3-api.zip` before submitting. Actual upload needs your cPanel login.
 - [x] Part 6 – external Open-Meteo weather API
-- [ ] GitHub repository with regular commits + link in the submission
+- [~] GitHub repository – local repo **initialised + first commit**; add the remote
+      and push when you have the repo URL:
+      ```bash
+      git commit --amend --author="Your Name <you@scu.edu.au>"   # fix the author first
+      git remote add origin <your-repo-url>
+      git push -u origin main
+      ```
 - [ ] Demo video (max 15 min) uploaded to SCU OneDrive
 - [ ] Peer evaluation form – **each member fills it in individually and
       confidentially** and emails it to the tutor as
