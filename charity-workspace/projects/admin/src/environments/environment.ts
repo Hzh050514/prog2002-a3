@@ -4,6 +4,6 @@
  * Update `apiBaseUrl` after deploying the API to the SCU cPanel.
  */
 export const environment = {
-  production: false,
-  apiBaseUrl: 'http://localhost:3000/api',
+  production: true,
+  apiBaseUrl: 'https://24832232.it.scu.edu.au/a3api/api',
 };

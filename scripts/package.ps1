@@ -45,8 +45,8 @@ function New-Htaccess([string]$dir, [string]$base) {
 
 Write-Host 'Building client + admin ...' -ForegroundColor Cyan
 Push-Location $ws
-ng build client
-ng build admin
+ng build client --base-href $ClientBase
+ng build admin  --base-href $AdminBase
 Pop-Location
 
 $clientDir = Join-Path $ws 'dist/client/browser'

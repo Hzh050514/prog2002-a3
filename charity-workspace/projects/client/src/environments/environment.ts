@@ -6,6 +6,6 @@
  *   https://yourusername.scudigitalpress.com/a3-api/api
  */
 export const environment = {
-  production: false,
-  apiBaseUrl: 'http://localhost:3000/api',
+  production: true,
+  apiBaseUrl: 'https://24832232.it.scu.edu.au/a3api/api',
 };
