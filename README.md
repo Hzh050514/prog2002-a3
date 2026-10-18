@@ -196,6 +196,8 @@ registrations is blocked by the API and the returned message is shown to the use
 
 ## 8. Deployment to SCU cPanel (Part 5)
 
+**Full click-by-click instructions: see [`DEPLOYMENT.md`](DEPLOYMENT.md).**
+
 1. Build the two sites:
    ```bash
    cd charity-workspace
