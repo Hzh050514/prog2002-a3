@@ -1,14 +1,14 @@
 # 部署到 SCU cPanel（Part 5）—— 逐步操作手册
 
 > 先填好这张表，后面每一步都要用到。把 `username` 换成**你的 cPanel 用户名**
-> （例如 `hz123456`）。
+> （例如 `zhuo13`）。
 
 | 项目 | 你的值 |
 |---|---|
 | cPanel 登录地址 | `https://__________________` |
-| cPanel 用户名 | `__________` |
-| 数据库名（带前缀） | `username_a3db` |
-| 数据库用户（带前缀） | `username_a3user` |
+| cPanel 用户名 | `zhuo13` |
+| 数据库名（带前缀） | `zhuo13_a3db` |
+| 数据库用户（带前缀） | `zhuo13_a3user` |
 | 数据库密码 | `__________` |
 | API 公开地址 | `https://__________________` |
 | 客户端网站地址 | `https://__________________` |
@@ -20,11 +20,11 @@
 
 1. 登录 cPanel，打开 **MySQL Databases**（MySQL 数据库）。
 2. **Create New Database**（创建新数据库）→ 输入 `a3db`
-   → cPanel 会自动加上前缀，完整名字是 `username_a3db`（**记下来**）。
+   → cPanel 会自动加上前缀，完整名字是 `zhuo13_a3db`（**记下来**）。
 3. 往下找到 **Add New User**（添加新用户）→ 用户名填 `a3user`，设置一个密码
    （用 **Generate** 生成强密码），点 **Create User**。
-   完整用户名是 `username_a3user`（**记下来**）。
-4. 再往下 **Add User To Database** → 选 `username_a3user` + `username_a3db`
+   完整用户名是 `zhuo13_a3user`（**记下来**）。
+4. 再往下 **Add User To Database** → 选 `zhuo13_a3user` + `zhuo13_a3db`
    → 勾选 **ALL PRIVILEGES** → **Make Changes**。
 
 ---
@@ -32,7 +32,7 @@
 ## 第 2 步：导入数据（phpMyAdmin）
 
 1. 回到 cPanel 首页 → **phpMyAdmin**。
-2. 左侧点开你的数据库 `username_a3db`（**一定要先选中它**）。
+2. 左侧点开你的数据库 `zhuo13_a3db`（**一定要先选中它**）。
 3. 顶部 **Import**（导入）→ **Choose File** 选 `api/db/charity_events.sql`。
 4. 如果报 `CREATE DATABASE ... access denied`：**cPanel 不允许你自己建库**。
    用记事本打开那个 SQL 文件，**删掉第 23–27 行**（`CREATE DATABASE ...` 和
@@ -66,9 +66,9 @@
    |---|---|
    | `DB_HOST` | `localhost` |
    | `DB_PORT` | `3306` |
-   | `DB_USER` | `username_a3user` |
+   | `DB_USER` | `zhuo13_a3user` |
    | `DB_PASSWORD` | 第 1 步的密码 |
-   | `DB_NAME` | `username_a3db` |
+   | `DB_NAME` | `zhuo13_a3db` |
 
    > `PORT` 由 cPanel 自动分配，**不要手动设置**；`server.js` 已经写成
    > `process.env.PORT || 3000`，会自动用 cPanel 给的端口。
@@ -103,19 +103,19 @@
 3. 在**项目根目录**执行一条命令完成「构建 + 生成 .htaccess + 打包」：
 
    ```powershell
-   powershell -ExecutionPolicy Bypass -File scripts\package.ps1 -Username hz123456
+   powershell -ExecutionPolicy Bypass -File scripts\package.ps1 -Username zhuo13
    ```
 
-   （把 `hz123456` 换成你的 cPanel 用户名；如果网站要放在
+   （把 `zhuo13` 换成你的 cPanel 用户名；如果网站要放在
    `public_html/a3-client` 这种子目录里，再加
    `-ClientBase "/a3-client/" -AdminBase "/a3-admin/"`）
 
 4. 产出在 `deliverables/`，文件名已经是提交要求的格式：
 
    ```
-   hz123456A3-clientside.zip
-   hz123456A3-adminside.zip
-   hz123456A3-api.zip        ← 这个第 3 步已经上传过，不用再传
+   zhuo13A3-clientside.zip
+   zhuo13A3-adminside.zip
+   zhuo13A3-api.zip        ← 这个第 3 步已经上传过，不用再传
    ```
 
 > `.htaccess` 是必须带的：没有它，在活动详情页刷新页面会因为 SPA 路由被
