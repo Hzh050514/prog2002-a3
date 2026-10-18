@@ -28,6 +28,18 @@ const PORT = Number(process.env.PORT || 3000);
 app.use(cors());
 app.use(express.json());
 
+// cPanel deploys this app under a sub-path (e.g. https://host/a3api/api/...).
+// Passenger forwards the FULL URL, so strip the mount prefix ("/a3api")
+// before routing - locally there is no prefix and this is a no-op.
+app.use((req, res, next) => {
+  if (req.url === '/a3api' || req.url === '/a3api/') {
+    req.url = '/';
+  } else if (req.url.startsWith('/a3api/')) {
+    req.url = req.url.slice('/a3api'.length);
+  }
+  next();
+});
+
 /** Friendly root so a browser hit on the API host documents itself. */
 app.get('/', (req, res) => {
   res.json({
