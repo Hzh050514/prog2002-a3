@@ -1,0 +1,178 @@
+<div class="container">
+  <div class="page-head">
+    <div>
+      <h1>New charity event</h1>
+      <p>Complete the form to publish a new event on the client-side website.</p>
+    </div>
+    <a class="btn btn-ghost" routerLink="/events">Back to list</a>
+  </div>
+
+  <div class="panel">
+    @if (error()) {
+      <p class="alert alert-error">{{ error() }}</p>
+    }
+
+    <form (ngSubmit)="submit()" novalidate>
+      <div class="form-grid">
+        <div class="field">
+          <label for="event_name">Event name *</label>
+          <input id="event_name" name="event_name" type="text" [(ngModel)]="form.event_name" />
+          @if (errors()['event_name']) {
+            <span class="field-error">{{ errors()['event_name'] }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="event_date">Event date *</label>
+          <input id="event_date" name="event_date" type="date" [(ngModel)]="form.event_date" />
+          @if (errors()['event_date']) {
+            <span class="field-error">{{ errors()['event_date'] }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="event_location">Location *</label>
+          <input
+            id="event_location"
+            name="event_location"
+            type="text"
+            placeholder="e.g. Sydney, NSW"
+            [(ngModel)]="form.event_location"
+          />
+          @if (errors()['event_location']) {
+            <span class="field-error">{{ errors()['event_location'] }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="organiser_name">Organiser *</label>
+          <input
+            id="organiser_name"
+            name="organiser_name"
+            type="text"
+            [(ngModel)]="form.organiser_name"
+          />
+          @if (errors()['organiser_name']) {
+            <span class="field-error">{{ errors()['organiser_name'] }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="category_id">Category *</label>
+          <select id="category_id" name="category_id" [(ngModel)]="form.category_id">
+            <option [ngValue]="null">Select a category…</option>
+            @for (category of categories(); track category.category_id) {
+              <option [ngValue]="category.category_id">{{ category.name }}</option>
+            }
+          </select>
+          @if (errors()['category_id']) {
+            <span class="field-error">{{ errors()['category_id'] }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="status">Status</label>
+          <select id="status" name="status" [(ngModel)]="form.status">
+            @for (status of statuses; track status) {
+              <option [ngValue]="status">{{ status }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="latitude">Latitude</label>
+          <input
+            id="latitude"
+            name="latitude"
+            type="number"
+            step="any"
+            placeholder="e.g. -33.8688"
+            [(ngModel)]="form.latitude"
+          />
+          @if (errors()['latitude']) {
+            <span class="field-error">{{ errors()['latitude'] }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="longitude">Longitude</label>
+          <input
+            id="longitude"
+            name="longitude"
+            type="number"
+            step="any"
+            placeholder="e.g. 151.2093"
+            [(ngModel)]="form.longitude"
+          />
+          @if (errors()['longitude']) {
+            <span class="field-error">{{ errors()['longitude'] }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="contact_email">Contact email</label>
+          <input
+            id="contact_email"
+            name="contact_email"
+            type="email"
+            [(ngModel)]="form.contact_email"
+          />
+        </div>
+
+        <div class="field">
+          <label for="contact_phone">Contact phone</label>
+          <input
+            id="contact_phone"
+            name="contact_phone"
+            type="text"
+            [(ngModel)]="form.contact_phone"
+          />
+        </div>
+
+        <div class="field">
+          <label for="target_funding">Target funding (AUD)</label>
+          <input
+            id="target_funding"
+            name="target_funding"
+            type="number"
+            min="0"
+            step="1"
+            [(ngModel)]="form.target_funding"
+          />
+          @if (errors()['target_funding']) {
+            <span class="field-error">{{ errors()['target_funding'] }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="current_funding">Current funding (AUD)</label>
+          <input
+            id="current_funding"
+            name="current_funding"
+            type="number"
+            min="0"
+            step="1"
+            [(ngModel)]="form.current_funding"
+          />
+        </div>
+
+        <div class="field" style="grid-column: 1 / -1">
+          <label for="event_description">Description</label>
+          <textarea
+            id="event_description"
+            name="event_description"
+            rows="4"
+            [(ngModel)]="form.event_description"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="submitting()">
+          {{ submitting() ? 'Saving…' : 'Save event' }}
+        </button>
+        <a class="btn btn-ghost" routerLink="/events">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

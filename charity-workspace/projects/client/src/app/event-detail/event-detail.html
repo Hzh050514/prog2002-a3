@@ -1,0 +1,144 @@
+<section class="section">
+  <div class="container">
+    @if (loading()) {
+      <p class="muted">Loading event details&hellip;</p>
+    } @else if (error()) {
+      <p class="alert alert-error">{{ error() }}</p>
+      <a class="btn btn-ghost" routerLink="/search">Back to search</a>
+    } @else if (event(); as ev) {
+      <div class="badges" style="margin-bottom: 12px">
+        <span class="badge badge-category">{{ ev.category_name }}</span>
+        <span [class]="format.statusClass(ev.status)">{{ ev.status }}</span>
+      </div>
+
+      <h1 style="margin: 0 0 6px">{{ ev.event_name }}</h1>
+      <p class="muted" style="margin: 0">
+        {{ format.date(ev.event_date) }} &middot; {{ ev.event_location }} &middot;
+        Organised by {{ ev.organiser_name }}
+      </p>
+
+      <div class="detail-layout" style="margin-top: 26px">
+        <!-- ------------------------------------------------------------- -->
+        <!-- Left column: description, funding, registrations              -->
+        <!-- ------------------------------------------------------------- -->
+        <div>
+          <div class="panel">
+            <h3>About this event</h3>
+            <p style="margin: 0">{{ ev.event_description || 'No description provided.' }}</p>
+
+            <div class="detail-stats">
+              <div class="stat">
+                <div class="stat-label">Event date</div>
+                <div class="stat-value">{{ format.date(ev.event_date) }}</div>
+              </div>
+              <div class="stat">
+                <div class="stat-label">Location</div>
+                <div class="stat-value">{{ ev.event_location }}</div>
+              </div>
+              <div class="stat">
+                <div class="stat-label">Funds raised</div>
+                <div class="stat-value">{{ format.currency(ev.current_funding) }}</div>
+              </div>
+              <div class="stat">
+                <div class="stat-label">Target</div>
+                <div class="stat-value">{{ format.currency(ev.target_funding) }}</div>
+              </div>
+            </div>
+
+            <div class="progress">
+              <span [style.width.%]="format.progress(ev)"></span>
+            </div>
+            <div class="progress-labels">
+              <span>{{ format.progress(ev) }}% of the goal reached</span>
+              <span>{{ ev.contact_email || 'No contact published' }}</span>
+            </div>
+          </div>
+
+          <!-- Registrations: latest purchase first -->
+          <div class="panel" style="margin-top: 20px">
+            <h3>Registrations ({{ ev.registrations?.length || 0 }})</h3>
+
+            @if (!ev.registrations || ev.registrations.length === 0) {
+              <p class="muted">
+                Nobody has registered for this event yet. Be the first to secure a ticket.
+              </p>
+            } @else {
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Tickets</th>
+                      <th>Registered on</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (registration of ev.registrations; track registration.registration_id) {
+                      <tr>
+                        <td>{{ registration.registration_id }}</td>
+                        <td>{{ registration.name }}</td>
+                        <td>{{ registration.email }}</td>
+                        <td>{{ registration.phone || '-' }}</td>
+                        <td>{{ registration.number_of_tickets }}</td>
+                        <td>{{ format.dateTime(registration.registration_date) }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+              <p class="muted" style="margin-top: 10px">
+                Total tickets purchased: <strong>{{ totalTickets() }}</strong>
+              </p>
+            }
+          </div>
+        </div>
+
+        <!-- ------------------------------------------------------------- -->
+        <!-- Right column: registration CTA + external weather API         -->
+        <!-- ------------------------------------------------------------- -->
+        <aside>
+          <div class="panel">
+            <h3>Join this event</h3>
+            <p class="muted" style="margin-top: 0">
+              Reserve your tickets now. One registration per email address.
+            </p>
+            <a class="btn btn-primary" [routerLink]="['/register', ev.event_id]" style="width: 100%">
+              Register
+            </a>
+          </div>
+
+          <div class="panel" style="margin-top: 20px">
+            <h3>Weather forecast</h3>
+            <p class="muted" style="margin-top: 0; font-size: 0.85rem">
+              Live data from the external Open-Meteo API, based on the event coordinates.
+            </p>
+
+            @if (weatherError()) {
+              <p class="alert alert-info">{{ weatherError() }}</p>
+            } @else if (forecast().length === 0) {
+              <p class="muted">Loading forecast&hellip;</p>
+            } @else {
+              <div class="weather-grid">
+                @for (day of forecast(); track day.date) {
+                  <div class="weather-row">
+                    <div>
+                      <div class="weather-date">{{ format.date(day.date) }}</div>
+                      <div class="weather-desc">{{ day.description }}</div>
+                    </div>
+                    <div class="weather-temp">
+                      {{ day.temperature_max }}&deg;C
+                      <span class="min">/ {{ day.temperature_min }}&deg;C</span>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </aside>
+      </div>
+    }
+  </div>
+</section>

@@ -1,0 +1,114 @@
+<div class="container">
+  <div class="page-head">
+    <div>
+      <h1>Charity events</h1>
+      <p>List, create, update and delete the charity events shown on the public website.</p>
+    </div>
+    <a class="btn btn-primary" routerLink="/events/new">New event</a>
+  </div>
+
+  @if (message()) {
+    <p class="alert alert-success">{{ message() }}</p>
+  }
+  @if (error()) {
+    <p class="alert alert-error">{{ error() }}</p>
+  }
+
+  <div class="stat-row">
+    <div class="stat">
+      <div class="stat-label">Total events</div>
+      <div class="stat-value">{{ events().length }}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Active</div>
+      <div class="stat-value">{{ countBy('Active') }}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Suspended</div>
+      <div class="stat-value">{{ countBy('Suspended') }}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Past</div>
+      <div class="stat-value">{{ countBy('Past') }}</div>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <p class="muted">Loading events&hellip;</p>
+  } @else if (events().length === 0) {
+    <p class="alert alert-info">No events have been created yet.</p>
+  } @else {
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Event</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Funding</th>
+            <th class="thin">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (event of events(); track event.event_id) {
+            <tr>
+              <td>{{ event.event_id }}</td>
+              <td>
+                <strong>{{ event.event_name }}</strong>
+                <div class="muted" style="font-size: 0.82rem">{{ event.organiser_name }}</div>
+              </td>
+              <td>
+                <span class="badge badge-category">{{ event.category_name }}</span>
+              </td>
+              <td class="thin">{{ format.date(event.event_date) }}</td>
+              <td>{{ event.event_location }}</td>
+              <td>
+                <span [class]="format.statusClass(event.status)">{{ event.status }}</span>
+              </td>
+              <td class="thin">
+                {{ format.currency(event.current_funding) }}
+                <div class="muted" style="font-size: 0.8rem">
+                  of {{ format.currency(event.target_funding) }}
+                </div>
+              </td>
+              <td>
+                @if (pendingDelete() === event.event_id) {
+                  <div class="confirm-box">
+                    <span>Delete this event?</span>
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm"
+                      [disabled]="deleting() === event.event_id"
+                      (click)="deleteEvent(event.event_id)"
+                    >
+                      {{ deleting() === event.event_id ? 'Deleting…' : 'Yes, delete' }}
+                    </button>
+                    <button type="button" class="btn btn-ghost btn-sm" (click)="cancelDelete()">
+                      Cancel
+                    </button>
+                  </div>
+                } @else {
+                  <div class="actions">
+                    <a class="btn btn-ghost btn-sm" [routerLink]="['/events', event.event_id, 'edit']">
+                      Update
+                    </a>
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm"
+                      (click)="confirmDelete(event.event_id)"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Angular build output
+dist/
+.angular/
+.charity-workspace/
+
+# Environment secrets (never commit real credentials)
+.env
+api/.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# Packaged deliverables (cPanel zips)
+*.zip
+deliverables/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

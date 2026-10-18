@@ -1,0 +1,29 @@
+<!--
+  Administration navigation.
+  Present on EVERY admin page, as required by Part 4 of the brief.
+-->
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" routerLink="/events">
+      <span class="brand-mark">AD</span>
+      <span class="brand-text">Charity<span class="brand-accent">Admin</span></span>
+    </a>
+
+    <nav class="main-nav">
+      <a routerLink="/events" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        All events
+      </a>
+      <a routerLink="/events/new" routerLinkActive="active">New event</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <router-outlet />
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>PROG2002 Web Development II &mdash; Assessment 3 &mdash; Admin-side event management.</p>
+  </div>
+</footer>

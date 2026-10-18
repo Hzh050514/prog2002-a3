@@ -1,0 +1,102 @@
+<section class="section">
+  <div class="container">
+    @if (loading()) {
+      <p class="muted">Loading event information&hellip;</p>
+    } @else if (error() && !event()) {
+      <p class="alert alert-error">{{ error() }}</p>
+      <a class="btn btn-ghost" routerLink="/search">Back to search</a>
+    } @else if (event(); as ev) {
+      <h1 style="margin: 0 0 4px">Register for {{ ev.event_name }}</h1>
+      <p class="muted" style="margin: 0">
+        {{ format.date(ev.event_date) }} &middot; {{ ev.event_location }} &middot;
+        {{ ev.category_name }}
+      </p>
+
+      <div class="detail-layout" style="margin-top: 24px">
+        <!-- Registration form -->
+        <div class="form-panel">
+          <h3 style="margin-top: 0">Your details</h3>
+
+          @if (successMessage()) {
+            <p class="alert alert-success">{{ successMessage() }}</p>
+            <p class="muted">You will be taken back to the event page shortly.</p>
+          } @else {
+            @if (error()) {
+              <p class="alert alert-error">{{ error() }}</p>
+            }
+
+            <form (ngSubmit)="submit()" novalidate>
+              <div class="form-grid">
+                <div class="field">
+                  <label for="name">Full name *</label>
+                  <input id="name" name="name" type="text" [(ngModel)]="form.name" />
+                  @if (errors()['name']) {
+                    <span class="field-error">{{ errors()['name'] }}</span>
+                  }
+                </div>
+
+                <div class="field">
+                  <label for="email">Email address *</label>
+                  <input id="email" name="email" type="email" [(ngModel)]="form.email" />
+                  @if (errors()['email']) {
+                    <span class="field-error">{{ errors()['email'] }}</span>
+                  }
+                </div>
+
+                <div class="field">
+                  <label for="phone">Phone number</label>
+                  <input id="phone" name="phone" type="text" [(ngModel)]="form.phone" />
+                </div>
+
+                <div class="field">
+                  <label for="tickets">Number of tickets *</label>
+                  <input
+                    id="tickets"
+                    name="tickets"
+                    type="number"
+                    min="1"
+                    step="1"
+                    [(ngModel)]="form.number_of_tickets"
+                  />
+                  @if (errors()['number_of_tickets']) {
+                    <span class="field-error">{{ errors()['number_of_tickets'] }}</span>
+                  }
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 10px; margin-top: 20px">
+                <button type="submit" class="btn btn-primary" [disabled]="submitting()">
+                  {{ submitting() ? 'Submitting…' : 'Confirm registration' }}
+                </button>
+                <a class="btn btn-ghost" [routerLink]="['/event', ev.event_id]">Cancel</a>
+              </div>
+            </form>
+          }
+        </div>
+
+        <!-- Selected event summary, loaded through the API -->
+        <aside class="panel">
+          <h3>Event summary</h3>
+          <p style="margin-top: 0"><strong>{{ ev.event_name }}</strong></p>
+          <p class="muted" style="font-size: 0.9rem">{{ ev.event_description }}</p>
+
+          <div class="detail-stats">
+            <div class="stat">
+              <div class="stat-label">Date</div>
+              <div class="stat-value">{{ format.date(ev.event_date) }}</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Location</div>
+              <div class="stat-value">{{ ev.event_location }}</div>
+            </div>
+          </div>
+
+          <p class="muted" style="font-size: 0.85rem">
+            Organiser: {{ ev.organiser_name }}<br />
+            Contact: {{ ev.contact_email || '-' }}
+          </p>
+        </aside>
+      </div>
+    }
+  </div>
+</section>

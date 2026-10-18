@@ -1,0 +1,59 @@
+<section class="hero">
+  <div class="container">
+    <h1>Support the causes that matter</h1>
+    <p>
+      Browse upcoming charity events across Australia, check the weather on the day and
+      register for the ones you would like to attend.
+    </p>
+    <a class="btn btn-light" routerLink="/search">Search events</a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>All charity events</h2>
+      <span class="muted">{{ events().length }} event(s)</span>
+    </div>
+
+    @if (loading()) {
+      <p class="muted">Loading events&hellip;</p>
+    } @else if (error()) {
+      <p class="alert alert-error">{{ error() }}</p>
+    } @else if (events().length === 0) {
+      <p class="muted">No charity events have been published yet.</p>
+    } @else {
+      <div class="grid">
+        @for (event of events(); track event.event_id) {
+          <article class="card">
+            <div class="badges">
+              <span class="badge badge-category">{{ event.category_name }}</span>
+              <span [class]="format.statusClass(event.status)">{{ event.status }}</span>
+            </div>
+
+            <h3>
+              <a [routerLink]="['/event', event.event_id]">{{ event.event_name }}</a>
+            </h3>
+
+            <p class="card-meta">
+              {{ format.date(event.event_date) }} &middot; {{ event.event_location }}
+            </p>
+            <p class="card-meta">Organised by {{ event.organiser_name }}</p>
+
+            <div>
+              <div class="progress">
+                <span [style.width.%]="format.progress(event)"></span>
+              </div>
+              <div class="progress-labels">
+                <span>{{ format.currency(event.current_funding) }} raised</span>
+                <span>Goal {{ format.currency(event.target_funding) }}</span>
+              </div>
+            </div>
+
+            <a class="btn btn-ghost" [routerLink]="['/event', event.event_id]">View details</a>
+          </article>
+        }
+      </div>
+    }
+  </div>
+</section>

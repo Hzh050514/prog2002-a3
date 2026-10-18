@@ -1,0 +1,123 @@
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>Search charity events</h2>
+    </div>
+
+    <form class="form-panel" (ngSubmit)="search()" novalidate>
+      @if (validationError()) {
+        <p class="alert alert-info">{{ validationError() }}</p>
+      }
+      @if (error()) {
+        <p class="alert alert-error">{{ error() }}</p>
+      }
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="q">Keyword</label>
+          <input
+            id="q"
+            name="q"
+            type="text"
+            placeholder="Event name, organiser or description"
+            [(ngModel)]="filters.q"
+          />
+        </div>
+
+        <div class="field">
+          <label for="category">Category</label>
+          <select id="category" name="category" [(ngModel)]="filters.category_id">
+            <option [ngValue]="null">Any category</option>
+            @for (category of categories(); track category.category_id) {
+              <option [ngValue]="category.category_id">{{ category.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="status">Status</label>
+          <select id="status" name="status" [(ngModel)]="filters.status">
+            <option [ngValue]="null">Any status</option>
+            @for (status of statuses; track status) {
+              <option [ngValue]="status">{{ status }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="location">Location</label>
+          <input
+            id="location"
+            name="location"
+            type="text"
+            placeholder="e.g. Sydney"
+            [(ngModel)]="filters.location"
+          />
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 18px">
+        <button type="submit" class="btn btn-primary" [disabled]="loading()">Search</button>
+        <button type="button" class="btn btn-ghost" (click)="reset()">Show all events</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 0">
+  <div class="container">
+    <div class="section-head">
+      <h2>Results</h2>
+      @if (hasSearched()) {
+        <span class="muted">{{ events().length }} match(es)</span>
+      }
+    </div>
+
+    @if (loading()) {
+      <p class="muted">Searching&hellip;</p>
+    } @else if (!hasSearched()) {
+      <p class="muted">Choose at least one criterion above and press Search.</p>
+    } @else if (events().length === 0) {
+      <p class="alert alert-info">No events matched your criteria. Try a broader search.</p>
+    } @else {
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Event</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Funding</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (event of events(); track event.event_id) {
+              <tr>
+                <td>
+                  <strong>{{ event.event_name }}</strong>
+                  <div class="card-meta">{{ event.organiser_name }}</div>
+                </td>
+                <td>{{ event.category_name }}</td>
+                <td>{{ format.date(event.event_date) }}</td>
+                <td>{{ event.event_location }}</td>
+                <td>
+                  <span [class]="format.statusClass(event.status)">{{ event.status }}</span>
+                </td>
+                <td>
+                  {{ format.currency(event.current_funding) }}
+                  <div class="card-meta">of {{ format.currency(event.target_funding) }}</div>
+                </td>
+                <td>
+                  <a class="btn btn-ghost" [routerLink]="['/event', event.event_id]">Details</a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</section>
