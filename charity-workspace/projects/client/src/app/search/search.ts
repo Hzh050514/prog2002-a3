@@ -1,3 +1,13 @@
+/**
+ * search.ts - client-side Search page.
+ * ---------------------------------------------------------------------------
+ * The four filters (keyword, category, status, location) are bound with
+ * ngModel and sent to GET /api/events as query parameters, so filtering runs
+ * in SQL on the server instead of in the browser.
+ *
+ * At least one criterion is required: an empty form shows a validation message
+ * rather than silently returning every row in the table.
+ */
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
