@@ -5,5 +5,5 @@
  */
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://24832232.it.scu.edu.au/a3api/api',
+  apiBaseUrl: 'https://24832423.it.scu.edu.au/a3api/api',
 };
