@@ -1,3 +1,12 @@
+/**
+ * event-edit.ts - administrator "update event" form (UPDATE).
+ * ---------------------------------------------------------------------------
+ * The form is pre-filled from GET /api/events/:id, including the coordinates
+ * used by the weather feature and the registrations already recorded.
+ *
+ * Saving sends PUT /api/events/:id and then reloads the record, so the page
+ * always shows what the database currently contains.
+ */
 import { Component, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
