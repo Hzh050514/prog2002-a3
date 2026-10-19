@@ -1,3 +1,13 @@
+/**
+ * home.ts - client-side Home page.
+ * ---------------------------------------------------------------------------
+ * Fetches every event from GET /api/events when the page is created and shows
+ * each one as a card with a funding progress bar and a status badge.
+ *
+ * All state lives in Angular signals, so the template updates automatically
+ * when the HTTP response arrives. A failed request becomes a readable message
+ * instead of leaving the page blank.
+ */
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
