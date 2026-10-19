@@ -1,3 +1,8 @@
+/**
+ * Route table for the administrator website.
+ * The empty path redirects to the event list, and /events/:id/edit is the
+ * update form. Unknown URLs fall back to the list instead of a blank page.
+ */
 import { Routes } from '@angular/router';
 
 import { EventsList } from './events-list/events-list';
