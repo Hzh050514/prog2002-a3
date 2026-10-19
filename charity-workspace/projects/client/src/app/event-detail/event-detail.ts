@@ -1,3 +1,14 @@
+/**
+ * event-detail.ts - client-side Event detail page (/event/:id).
+ * ---------------------------------------------------------------------------
+ * Two API calls are made for one page:
+ *   1. GET /api/events/:id  - the event plus every registration for it.
+ *   2. GET /api/weather     - seven day forecast for the event coordinates
+ *                             (our Express server proxies api.open-meteo.com).
+ *
+ * Registrations are sorted newest-first on the client as well, so the order
+ * required by the brief is guaranteed even if the SQL ordering changes.
+ */
 import { Component, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
