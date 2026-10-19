@@ -1,3 +1,11 @@
+/**
+ * Route table for the client-side website.
+ * Each page is a standalone component; the :id parameter is read with
+ * ActivatedRoute in the detail and registration pages.
+ *
+ * The wildcard route sends unknown URLs back to the home page, which also
+ * covers a mistyped deep link.
+ */
 import { Routes } from '@angular/router';
 
 import { Home } from './home/home';
