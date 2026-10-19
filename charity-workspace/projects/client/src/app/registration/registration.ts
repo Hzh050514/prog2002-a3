@@ -1,3 +1,13 @@
+/**
+ * registration.ts - client-side Registration form (/register/:id).
+ * ---------------------------------------------------------------------------
+ * Flow: validate in the browser -> POST /api/registrations -> confirmation
+ * message -> redirect to the event detail page after a short delay.
+ *
+ * Browser validation stops obvious mistakes before a request is sent, but the
+ * server rules still apply: the UNIQUE(event_id, email) constraint makes the
+ * API answer 409, and that message is displayed to the visitor unchanged.
+ */
 import { Component, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
