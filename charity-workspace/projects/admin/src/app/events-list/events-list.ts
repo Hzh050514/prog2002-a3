@@ -1,3 +1,13 @@
+/**
+ * events-list.ts - administrator event list (READ + DELETE).
+ * ---------------------------------------------------------------------------
+ * Unlike the public site, this page shows every event regardless of status,
+ * because staff must also see Past and Suspended records.
+ *
+ * Deleting is a two-step interaction: the row has to be confirmed first. The
+ * API answers 409 when registrations exist, and that message is shown as-is so
+ * the staff member understands why the delete was refused.
+ */
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
