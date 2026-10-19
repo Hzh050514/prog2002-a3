@@ -1,3 +1,13 @@
+/**
+ * event-new.ts - administrator "create event" form (CREATE).
+ * ---------------------------------------------------------------------------
+ * Categories come from GET /api/categories so the drop-down always matches the
+ * database. Required fields, latitude/longitude ranges and non-negative funding
+ * amounts are validated before POST /api/events is sent.
+ *
+ * After a successful save the user returns to the list, which reloads from the
+ * API so the new row appears immediately.
+ */
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
